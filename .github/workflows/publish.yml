@@ -2,10 +2,10 @@ name: 'Main: Publish to Maven repo'
 
 on:
   push:
-    branches: [ master, update ]
+    branches: [ master ]
 
 jobs:
-  github_release:
+  publish_to_maven_repo:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
