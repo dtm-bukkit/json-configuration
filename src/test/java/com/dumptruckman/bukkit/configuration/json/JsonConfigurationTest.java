@@ -3,7 +3,6 @@ package com.dumptruckman.bukkit.configuration.json;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemFactory;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.junit.Before;
@@ -33,13 +32,13 @@ public class JsonConfigurationTest {
 
     @Before
     public void setUp() throws Exception {
-        if (!mocked) {
-            ItemFactory i = CraftItemFactory.instance();
-            PowerMockito.mockStatic(Bukkit.class);
-            BDDMockito.given(Bukkit.getItemFactory()).willReturn(i);
-            ConfigurationSerialization.registerClass(ItemStack.class);
-            mocked = true;
-        }
+//        if (!mocked) {
+//            ItemFactory i = CraftItemFactory.instance();
+//            PowerMockito.mockStatic(Bukkit.class);
+//            BDDMockito.given(Bukkit.getItemFactory()).willReturn(i);
+//            ConfigurationSerialization.registerClass(ItemStack.class);
+//            mocked = true;
+//        }
         jc = new JsonConfiguration();
     }
 

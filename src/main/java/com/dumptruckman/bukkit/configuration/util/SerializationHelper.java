@@ -124,6 +124,7 @@ public class SerializationHelper {
             try {
                 return ConfigurationSerialization.deserializeObject(output);
             } catch (IllegalArgumentException ex) {
+                LOG.severe(String.valueOf(output));
                 throw new YAMLException("Could not deserialize object", ex);
             }
         }
