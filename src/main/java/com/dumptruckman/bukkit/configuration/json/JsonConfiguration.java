@@ -5,7 +5,6 @@ package com.dumptruckman.bukkit.configuration.json;
 
 import com.dumptruckman.bukkit.configuration.SerializableSet;
 import com.dumptruckman.bukkit.configuration.util.SerializationHelper;
-import com.google.common.base.Charsets;
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -17,12 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.util.*;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -110,10 +105,8 @@ public class JsonConfiguration extends FileConfiguration {
             config.load(file);
         } catch (FileNotFoundException ex) {
             LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
-        } catch (IOException ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
             LOG.log(Level.SEVERE, "Cannot load " + file, ex);
-        } catch (InvalidConfigurationException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + file , ex);
         }
         return config;
     }
