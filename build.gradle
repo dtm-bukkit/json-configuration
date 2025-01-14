@@ -52,13 +52,10 @@ tasks.withType(JavaCompile) {
 publishing {
     repositories {
         maven {
-            name = 'OnARandomBox'
-            url = uri('https://repo.c0ding.party/releases/')
-            credentials(PasswordCredentials)
-        }
-        maven {
-            name = 'OnARandomBox-Snapshot'
-            url = uri('https://repo.c0ding.party/snapshots/')
+            name = "multiverse"
+            def releasesRepoUrl = "https://repo.c0ding.party/releases"
+            def snapshotsRepoUrl = "https://repo.c0ding.party/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials(PasswordCredentials)
         }
     }
