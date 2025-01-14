@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.inventory.ItemStack;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockbukkit.mockbukkit.MockBukkit;
@@ -27,14 +28,15 @@ public class JsonConfigurationTest {
 
     @Before
     public void setUp() {
-        if (!MockBukkit.isMocked()) {
-            server = MockBukkit.mock();
-            server.addSimpleWorld("world");
-            ConfigurationSerialization.registerClass(CustomSerializable.class);
-        } else {
-            server = MockBukkit.getMock();
-        }
+        server = MockBukkit.mock();
+        server.addSimpleWorld("world");
+        ConfigurationSerialization.registerClass(CustomSerializable.class);
         jc = new JsonConfiguration();
+    }
+
+    @After
+    public void tearDown() {
+        MockBukkit.unmock();
     }
 
     @Test
