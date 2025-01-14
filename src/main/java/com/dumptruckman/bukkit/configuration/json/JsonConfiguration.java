@@ -67,7 +67,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     private void convertMapsToSections(@NotNull Map<?, ?> input, @NotNull final ConfigurationSection section) {
-        final Object result = SerializationHelper.deserialize(input);
+        final Object result = SerializationHelper.deserialize(input, options().continueOnSerializationError);
         if (result instanceof Map) {
             input = (Map<?, ?>) result;
             for (Map.Entry<?, ?> entry : input.entrySet()) {

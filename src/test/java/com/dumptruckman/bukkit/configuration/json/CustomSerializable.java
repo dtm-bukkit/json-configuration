@@ -42,4 +42,12 @@ public class CustomSerializable implements ConfigurationSerializable {
     public int hashCode() {
         return Objects.hash(item, rating);
     }
+
+    @Override
+    public String toString() {
+        return "CustomSerializable{" +
+                "item=" + item +
+                ", rating=" + rating +
+                '}';
+    }
 }

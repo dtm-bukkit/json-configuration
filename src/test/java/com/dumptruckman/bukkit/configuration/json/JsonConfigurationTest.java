@@ -1,9 +1,11 @@
 package com.dumptruckman.bukkit.configuration.json;
 
 import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.inventory.ItemStack;
 import org.junit.After;
@@ -40,7 +42,7 @@ public class JsonConfigurationTest {
     }
 
     @Test
-    public void testDeserializeJson() throws Exception {
+    public void testDeserializeJson() throws InvalidConfigurationException {
         jc.loadFromString(getResourceAsText("valid.json"));
 
         assertEquals(1, jc.getInt("test_number"));
@@ -61,7 +63,7 @@ public class JsonConfigurationTest {
     }
 
     @Test
-    public void testSerializeJson() throws Exception {
+    public void testSerializeJson() throws ParseException {
         jc.set("test_number", 1);
         jc.set("test_string", "a string");
         jc.set("test_array", List.of(1, 2, 3));
@@ -79,6 +81,18 @@ public class JsonConfigurationTest {
         Object actualJson = new JSONParser(JSONParser.USE_INTEGER_STORAGE).parse(actualData);
         Object expectedJson = new JSONParser(JSONParser.USE_INTEGER_STORAGE).parse(expectedData);
         assertEquals(expectedJson, actualJson);
+    }
+
+    @Test
+    public void testContinueOnError() throws InvalidConfigurationException {
+        jc.options().continueOnSerializationError(true);
+        jc.loadFromString(getResourceAsText("error.json"));
+        assertEquals(1, jc.getInt("number"));
+        assertEquals("this is a test", jc.getString("words"));
+        Location expectedLocation = new Location(server.getWorld("world"), 86.5, 70, -61.5, 135, 0);
+        assertEquals(expectedLocation, jc.get("location"));
+        CustomSerializable expectedCustom = new CustomSerializable(null, 2.34f);
+        assertEquals(expectedCustom, jc.get("custom"));
     }
 
     private String getResourceAsText(String path) {

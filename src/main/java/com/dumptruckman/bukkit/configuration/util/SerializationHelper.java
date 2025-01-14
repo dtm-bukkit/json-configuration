@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.serializer.SerializerException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,13 +109,13 @@ public class SerializationHelper {
      * {@link ConfigurationSerialization#deserializeObject(java.util.Map)}.  Basically this means it will deserialize
      * the most nested objects FIRST and the top level object LAST.
      */
-    public static Object deserialize(@NotNull final Map<?, ?> input) {
-        final Map<String, Object> output = new LinkedHashMap<String, Object>(input.size());
+    public static Object deserialize(@NotNull final Map<?, ?> input, boolean continueOnSerializationError) {
+        final Map<String, Object> output = new LinkedHashMap<>(input.size());
         for (final Map.Entry<?, ?> e : input.entrySet()) {
             if (e.getValue() instanceof Map) {
-                output.put(e.getKey().toString(), deserialize((Map<?, ?>) e.getValue()));
+                output.put(e.getKey().toString(), deserialize((Map<?, ?>) e.getValue(), continueOnSerializationError));
             }  else if (e.getValue() instanceof List) {
-                output.put(e.getKey().toString(), deserialize((List<?>) e.getValue()));
+                output.put(e.getKey().toString(), deserialize((List<?>) e.getValue(), continueOnSerializationError));
             } else {
                 output.put(e.getKey().toString(), e.getValue());
             }
@@ -124,8 +124,12 @@ public class SerializationHelper {
             try {
                 return ConfigurationSerialization.deserializeObject(output);
             } catch (IllegalArgumentException ex) {
+                LOG.severe("Could not deserialize the following object:");
                 LOG.severe(String.valueOf(output));
-                throw new YAMLException("Could not deserialize object", ex);
+                if (!continueOnSerializationError) {
+                    throw new SerializerException(ex.getMessage());
+                }
+                return null;
             }
         }
         return output;
@@ -134,16 +138,16 @@ public class SerializationHelper {
     /**
      * Parses through the input list to deal with serialized objects a la {@link ConfigurationSerializable}.
      *
-     * Functions similarly to {@link #deserialize(java.util.Map)} but only for detecting lists within
+     * Functions similarly to {@link #deserialize(java.util.Map, boolean)} but only for detecting lists within
      * lists and maps within lists.
      */
-    private static Object deserialize(@NotNull final List<?> input) {
+    private static Object deserialize(@NotNull final List<?> input, boolean continueOnSerializationError) {
         final List<Object> output = new ArrayList<Object>(input.size());
         for (final Object o : input) {
             if (o instanceof Map) {
-                output.add(deserialize((Map<?, ?>) o));
+                output.add(deserialize((Map<?, ?>) o, continueOnSerializationError));
             } else if (o instanceof List) {
-                output.add(deserialize((List<?>) o));
+                output.add(deserialize((List<?>) o, continueOnSerializationError));
             } else {
                 output.add(o);
             }
