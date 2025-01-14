@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * A JSON Configuration for Bukkit based on {@link FileConfiguration}.
- *
+ * <p>
  * Able to store all the things you'd expect from a Bukkit configuration.
  */
 public class JsonConfiguration extends FileConfiguration {
