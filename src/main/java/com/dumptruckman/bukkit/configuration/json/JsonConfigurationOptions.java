@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class JsonConfigurationOptions extends FileConfigurationOptions {
 
-    boolean continueOnSerializationError = false;
+    private boolean continueOnSerializationError = false;
 
     protected JsonConfigurationOptions(@NotNull final JsonConfiguration configuration) {
         super(configuration);
@@ -49,5 +49,9 @@ public class JsonConfigurationOptions extends FileConfigurationOptions {
     public JsonConfigurationOptions continueOnSerializationError(final boolean value) {
         continueOnSerializationError = value;
         return this;
+    }
+
+    public boolean continueOnSerializationError() {
+        return continueOnSerializationError;
     }
 }
