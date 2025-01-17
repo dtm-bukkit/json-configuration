@@ -1,0 +1,47 @@
+{
+  "test_number": 1,
+  "test_string": "a string",
+  "test_array": [
+    1,
+    2,
+    3
+  ],
+  "test_object": {
+    "a": 1,
+    "b": "x",
+    "c": 3.3
+  },
+  "test_configuration_serialization": {
+    "location": {
+      "==": "org.bukkit.Location",
+      "world": "world",
+      "x": 86.5,
+      "y": 70.0,
+      "z": -61.5,
+      "pitch": 0.0,
+      "yaw": 135.0
+    },
+    "custom": {
+      "==": "MyCustomObject",
+      "item": {
+        "==": "org.bukkit.inventory.ItemStack",
+        "type": "GRAVEL",
+        "amount": 3,
+        "v": 1,
+        "meta": {
+          "==": "org.mockbukkit.mockbukkit.inventory.meta.ItemMetaMock",
+          "enchants": {},
+          "meta-type": "UNSPECIFIC",
+          "PublicBukkitValues": {},
+          "Unbreakable": false,
+          "ItemFlags": {
+            "==": "set",
+            "contents": []
+          },
+          "repair-cost": 0
+        }
+      },
+      "rating": 2.34
+    }
+  }
+}

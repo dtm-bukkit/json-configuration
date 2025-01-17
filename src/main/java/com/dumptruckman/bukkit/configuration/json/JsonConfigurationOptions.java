@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class JsonConfigurationOptions extends FileConfigurationOptions {
 
+    private boolean continueOnSerializationError = false;
+
     protected JsonConfigurationOptions(@NotNull final JsonConfiguration configuration) {
         super(configuration);
     }
@@ -42,5 +44,14 @@ public class JsonConfigurationOptions extends FileConfigurationOptions {
     public JsonConfigurationOptions copyHeader(final boolean value) {
         super.copyHeader(value);
         return this;
+    }
+
+    public JsonConfigurationOptions continueOnSerializationError(final boolean value) {
+        continueOnSerializationError = value;
+        return this;
+    }
+
+    public boolean continueOnSerializationError() {
+        return continueOnSerializationError;
     }
 }

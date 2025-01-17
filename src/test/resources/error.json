@@ -1,0 +1,35 @@
+{
+  "number": 1,
+  "custom": {
+    "==": "MyCustomObject",
+    "item": {
+      "==": "ErrorItemStack",
+      "type": "GRAVEL",
+      "amount": 3,
+      "v": 1,
+      "meta": {
+        "==": "org.mockbukkit.mockbukkit.inventory.meta.ItemMetaMock",
+        "enchants": {},
+        "meta-type": "UNSPECIFIC",
+        "PublicBukkitValues": {},
+        "Unbreakable": false,
+        "ItemFlags": {
+          "==": "set",
+          "contents": []
+        },
+        "repair-cost": 0
+      }
+    },
+    "rating": 2.34
+  },
+  "location": {
+    "==": "org.bukkit.Location",
+    "world": "world",
+    "x": 86.5,
+    "y": 70.0,
+    "z": -61.5,
+    "pitch": 0.0,
+    "yaw": 135.0
+  },
+  "words": "this is a test"
+}

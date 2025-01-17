@@ -5,7 +5,6 @@ package com.dumptruckman.bukkit.configuration.json;
 
 import com.dumptruckman.bukkit.configuration.SerializableSet;
 import com.dumptruckman.bukkit.configuration.util.SerializationHelper;
-import com.google.common.base.Charsets;
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -17,18 +16,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.util.*;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * A JSON Configuration for Bukkit based on {@link FileConfiguration}.
- *
+ * <p>
  * Able to store all the things you'd expect from a Bukkit configuration.
  */
 public class JsonConfiguration extends FileConfiguration {
@@ -72,7 +67,7 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     private void convertMapsToSections(@NotNull Map<?, ?> input, @NotNull final ConfigurationSection section) {
-        final Object result = SerializationHelper.deserialize(input);
+        final Object result = SerializationHelper.deserialize(input, options().continueOnSerializationError());
         if (result instanceof Map) {
             input = (Map<?, ?>) result;
             for (Map.Entry<?, ?> entry : input.entrySet()) {
@@ -110,10 +105,8 @@ public class JsonConfiguration extends FileConfiguration {
             config.load(file);
         } catch (FileNotFoundException ex) {
             LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
-        } catch (IOException ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
             LOG.log(Level.SEVERE, "Cannot load " + file, ex);
-        } catch (InvalidConfigurationException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + file , ex);
         }
         return config;
     }

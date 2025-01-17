@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.dumptruckman.minecraft'
+version = '1.2-SNAPSHOT'
+description = 'A JSON Configuration for Bukkit based on FileConfiguration.'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileTestJava {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigot-repo'
+        url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')
+    }
+    maven {
+        name = 'onarandombox'
+        url = uri('https://repo.onarandombox.com/content/groups/public/')
+    }
+}
+
+dependencies {
+    // Spigot API
+    compileOnly 'org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT'
+    
+    // JSON-smart
+    implementation 'net.minidev:json-smart:2.5.1'
+    
+    // IntelliJ Annotations
+    compileOnly 'com.intellij:annotations:12.0'
+
+    // Testing libraries
+    compileOnly 'org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT'
+    testImplementation 'org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.24.1'
+    testImplementation 'junit:junit:4.13.1'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "multiverse"
+            def releasesRepoUrl = "https://repo.onarandombox.com/dumptruckman-releases"
+            def snapshotsRepoUrl = "https://repo.onarandombox.com/dumptruckman-snapshotss"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            credentials(PasswordCredentials)
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+test {
+    useJUnit()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
