@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 public class JsonConfigurationTest {
@@ -93,6 +94,14 @@ public class JsonConfigurationTest {
         assertEquals(expectedLocation, jc.get("location"));
         CustomSerializable expectedCustom = new CustomSerializable(null, 2.34f);
         assertEquals(expectedCustom, jc.get("custom"));
+    }
+
+    @Test
+    public void testLoadSamplePlayerData() throws InvalidConfigurationException {
+        jc.loadFromString(getResourceAsText("player.json"));
+        assertEquals("world", jc.getString("playerData.lastWorld"));
+        assertFalse(jc.getBoolean("playerData.shouldLoad"));
+        assertEquals("Benji_0224", jc.getString("playerData.lastKnownName"));
     }
 
     private String getResourceAsText(String path) {
